@@ -11,7 +11,7 @@
 #  then launch the actual script.
 #
 
-current_dir="$(dirname -- "$0")"
+current_dir="$(dirname -- "$(realpath "$0")")"
 
 
 app_name="$(grep "^dialog_app=" "$current_dir/do_ish_config.sh"  | \

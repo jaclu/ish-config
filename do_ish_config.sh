@@ -469,8 +469,8 @@ main() {
             ;;
 
         "Time-Zone")
-            run_from="$(dirname -- "$0")"
-            "$run_from"/set-timezone.sh
+            current_dir="$(dirname -- "$(realpath "$0")")"
+            "$current_dir"/set-timezone.sh
             ;;
 
         "Tweaks")
