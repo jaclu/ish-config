@@ -13,6 +13,10 @@ if [ $(whoami) != "root" ]; then
     exit 1
 fi
 
+echo
+ehco "Installing ish-config"
+echo
+
 apk add git
 git clone https://github.com/jaclu/ish-config.git /opt/ish-config
 ln -sf /opt/ish-config/ish-config.sh /usr/local/bin/ish-config
