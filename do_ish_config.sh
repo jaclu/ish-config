@@ -485,7 +485,7 @@ main() {
 
 
 if [[ "$(whoami)" != 'root' ]]; then
-        echo "Sorry, only the superuser can do $0."
+        echo "You must use sudo or run as root"
         exit 1;
 fi
 
