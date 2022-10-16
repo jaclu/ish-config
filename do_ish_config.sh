@@ -17,8 +17,8 @@
 #  sudo apk add git && sudo git clone https://github.com/jaclu/ish_config.git /opt/ish-config
 #  TODO: check with emkey1 /proc/ish/defaults/option_mapping cant be changed
 
-# dialog_app="dialog"
-dialog_app="whiptail"
+dialog_app="dialog"
+#dialog_app="whiptail"
 
 ish_service_disclaimer() {
     echo
@@ -179,6 +179,8 @@ dialog_console() {
         optional_items+=("ocs" "Override Control Space" "$OCS_CUR")
     fi
 
+    #  Min sizses
+    #    whiptail 14 56 7
     console=$($dialog_app                                                   \
         --title     "Console Settings"                                      \
         --ok-button "Update"                                                \
