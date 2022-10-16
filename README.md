@@ -20,6 +20,7 @@ This will install this tool to /opt/ish-config and do softlinks to /usr/local/bi
 
 ```shell
 /bin/sh -c "$(curl https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
+
 ```
 
 ## Test data
