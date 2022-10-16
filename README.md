@@ -1,4 +1,4 @@
-# ish_config
+# ish-config
 Dialog driven ish configuration
 
 Work in progress not really usable yet!
