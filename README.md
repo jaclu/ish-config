@@ -14,7 +14,7 @@ activates it as a service, so it will be started on every launch of iSH
 - Install Python - This is the single most commonly asked question on the Discord
 forum, so I thought it makes sense to offer it as a one-click option.
 
-## Simple Installation:
+## Simple Installation
 
 This will install this tool to /opt/ish-config and do softlinks to /usr/local/bin
 
