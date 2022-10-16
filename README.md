@@ -22,8 +22,6 @@ This will install this tool to /opt/ish-config and do softlinks to /usr/local/bi
 apk add curl && /bin/sh -c "$(curl https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
 ```
 
-Work in progress not really usable yet!
-
 ## Test data
 
 The test_data/dummy-ssh-host-keys.tgz should not be used beyond testing,
