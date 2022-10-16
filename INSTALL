@@ -1,0 +1,9 @@
+#!/bin/sh
+
+sudo apk add git
+sudo git clone https://github.com/jaclu/ish-config.git /opt/ish-config
+sudo ln -sf /opt/ish-config/ish_config.sh /usr/local/bin/ish_config
+sudo ln -sf /opt/ish-config/set-timezone.sh /usr/local/bin/set-timezone
+
+echo
+echo "you should now have ish_config and set-timezone in your path"
