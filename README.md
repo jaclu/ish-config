@@ -23,6 +23,8 @@ This will install this tool to /opt/ish-config and do softlinks to /usr/local/bi
 
 ```
 
+Once installed run it with `ish-config`
+
 ## Test data
 
 The test_data/dummy-ssh-host-keys.tgz should not be used beyond testing,
