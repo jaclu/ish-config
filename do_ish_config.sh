@@ -114,9 +114,9 @@ dialog_console() {
     bcu_file="/proc/ish/defaults/blink_cursor"
     state="$(cat $bcu_file)"
     if [[ "$state" = "true" ]]; then
-        BCU_CUR="on"
+        CUB_CUR="on"
     else
-        BCU_CUR="off"
+        CUB_CUR="off"
     fi
 
     bme_file="/proc/ish/defaults/backtick_mapping_escape"
@@ -139,20 +139,20 @@ dialog_console() {
     if [[ -f $hek_file ]]; then
         state="$(cat $hek_file)"
         if [[ "$state" = "true" ]]; then
-            HEK_CUR="on"
+            EKH_CUR="on"
         else
-            HEK_CUR="off"
+            EKH_CUR="off"
         fi
     else
-        HEK_CUR="unavailable"
+        EKH_CUR="unavailable"
     fi
 
     hsb_file="/proc/ish/defaults/hide_status_bar"
     state="$(cat $hsb_file)"
     if [[ "$state" = "true" ]]; then
-        HSB_CUR="on"
+        SBH_CUR="on"
     else
-        HSB_CUR="off"
+        SBH_CUR="off"
     fi
 
     ocs_file="/proc/ish/defaults/override_control_space"
@@ -169,11 +169,10 @@ dialog_console() {
 
     optional_items=()
     #
-    #  Depending on AOK kernel versions some console features might be
-    #  unavailable
+    #  Depending on kernel versions some console features might be unavailable
     #
-    if [[ $HEK_CUR != "unavailable" ]]; then
-        optional_items+=("hek" "Hide extra keys with external keyboard" "$HEK_CUR")
+    if [[ $EKH_CUR != "unavailable" ]]; then
+        optional_items+=("ekh" "Hide extra keys with external keyboard" "$EKH_CUR")
     fi
     if [[ $OCS_CUR != "unavailable" ]]; then
         optional_items+=("ocs" "Override Control Space" "$OCS_CUR")
@@ -185,10 +184,10 @@ dialog_console() {
         --title     "Console Settings"                                      \
         --ok-button "Update"                                                \
         --checklist "Select features to be active:" 0 0 0                   \
-        "bcu"       "Blinking Cursor"                         "$BCU_CUR"    \
         "bme"       "Backtick  Mapping Escape"                "$BME_CUR"    \
+        "cub"       "Blinking Cursor"                         "$CUB_CUR"    \
         "ddi"       "Disable Dimming"                         "$DDI_CUR"    \
-        "hsb"       "Hide Status Bar"                         "$HSB_CUR"    \
+        "sbh"       "Hide Status Bar"                         "$SBH_CUR"    \
         "${optional_items[@]}"                                              \
         3>&2 2>&1 1>&3-)
 
@@ -198,15 +197,15 @@ dialog_console() {
     #
     #  Blinking Cursor
     #
-    if echo "$console" | grep -q "bcu"; then
-        bcu_new="on"
+    if echo "$console" | grep -q "cub"; then
+        cub_new="on"
         kernel_param="true"
     else
-        bcu_new="off"
+        cub_new="off"
         kernel_param="false"
     fi
     # Only apply if changed
-    [[ "$BCU_CUR" != "$bcu_new" ]] && echo "$kernel_param" > "$bcu_file"
+    [[ "$CUB_CUR" != "$cub_new" ]] && echo "$kernel_param" > "$bcu_file"
 
     #
     #  Backtick Mapping Escape
@@ -235,26 +234,26 @@ dialog_console() {
     #
     #  Hide extra keys with external keyboard
     #
-    if echo "$console" | grep -q "hek"; then
-        hek_new="on"
+    if echo "$console" | grep -q "ekh"; then
+        ekh_new="on"
         kernel_param="true"
     else
-        hek_new="off"
+        ekh_new="off"
         kernel_param="false"
     fi
-    [[ "$HEK_CUR" != "$hek_new" ]] && echo "$kernel_param" > "$hek_file"
+    [[ "$EKH_CUR" != "$ekh_new" ]] && echo "$kernel_param" > "$hek_file"
 
     #
     #  Hide Status Bar
     #
-    if echo "$console" | grep -q "hsb"; then
-        hsb_new="on"
+    if echo "$console" | grep -q "sbh"; then
+        sbh_new="on"
         kernel_param="true"
     else
-        hsb_new="off"
+        sbh_new="off"
         kernel_param="false"
     fi
-    [[ "$HSB_CUR" != "$hsb_new" ]] && echo "$kernel_param" > "$hsb_file"
+    [[ "$SBH_CUR" != "$sbh_new" ]] && echo "$kernel_param" > "$hsb_file"
 
     #
     #  Override Control Space
