@@ -1,5 +1,13 @@
 #!/bin/sh
-
+#
+#  Part of https://github.com/jaclu/ish-config
+#
+#  Copyright (c) 2022: Jacob.Lundqvist@gmail.com
+#
+#  License: MIT
+#
+#  This is the auto installation script
+#
 if [ $(whoami) != "root" ]; then
     echo "Please run as root or using sudo"
     exit 1
