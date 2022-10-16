@@ -31,3 +31,15 @@ The test_data/dummy-ssh-host-keys.tgz should not be used beyond testing,
 since they are shared here they offer NADA security.
 The only purpose is to save tons of time during testing not having to wait
 3-4 minutes for keys to be created on my old iPad 5th
+
+## Contributing
+
+Contributions are welcome, and they're appreciated.
+Every little bit helps, and credit is always given.
+
+The best way to send feedback is to file an issue at
+[issues](https://github.com/jaclu/ish-config/issues)
+
+#### License
+
+[MIT](LICENSE.md)
