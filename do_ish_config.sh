@@ -269,7 +269,7 @@ dialog_console() {
 }
 
 
-dialog_options() {   # TODO: SSHD & VNC status
+dialog_options() {   # TODO: VNC
     optional_items=()
 
     if [[ -n "$(command -v rc-status)" ]] &&  rc-status -a | grep -qw sshd ; then
@@ -278,13 +278,6 @@ dialog_options() {   # TODO: SSHD & VNC status
         SSHD_CUR="OFF"
     fi
 
-    # [[ -f /etc/passwd ]] && VNCS_I="ON" || VNC_I="OFF"
-    # [[ -f /etc/X11/xorg.conf.d/10-headless.conf ]] && VNC_I="ON" || VNC_I="OFF"
-    # if [[ "$VNC_I" = "ON" ]]; then
-    #     optional_items+=("vnc-run" "Start vnc server" OFF)
-    # fi
-
-    #  "vnc-i" "Install" "$VNC_I"                           \
     options=$($dialog_app                                   \
         --title "Optional Features"                         \
         --ok-button "Update"                                \
@@ -320,18 +313,6 @@ dialog_options() {   # TODO: SSHD & VNC status
 
         clear
     fi
-
-    # if [[ " ${options[*]} " =~ " vnc-i " ]]; then
-    #     echo ">> Installing vnc (if not already installed)"
-    #     if [[ " ${options[*]} " =~ " vnc-run " ]]; then
-    #         echo ">> Starting vnc server (if not running)"
-    #     else
-    #         echo ">> Stopping vnc server (if running)"
-    #     fi
-    # else
-    #     echo ">> Stopping vnc server (if running)"
-    #     echo ">> Removing vnc"
-    # fi
 }
 
 
