@@ -19,7 +19,7 @@ forum, so I thought it makes sense to offer it as a one-click option.
 This will install this tool to /opt/ish-config and do softlinks to /usr/local/bin
 
 ```shell
-/bin/sh -c "$(curl https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
+sudo apk add curl && /bin/sh -c "$(curl https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
 
 ```
 
