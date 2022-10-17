@@ -81,7 +81,7 @@ main ()
 
     if [[ -z "$tz" ]]; then
         #
-        #  Back was selected, recurse one level. If something eventually is 
+        #  Back was selected, recurse one level. If something eventually is
         #  selected, the outermost layer of this will use it once exiting.
         #
         main
@@ -129,6 +129,7 @@ if [[ -d /proc/ish ]]; then
         printf 'Installing dependencies: '
         printf '%s ' "${apks[@]}"
         printf '\n\n'
+        #  shellcheck disable=SC2068
         apk add ${apks[@]}
     fi
 fi
