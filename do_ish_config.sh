@@ -467,8 +467,8 @@ main() {
 
 
 if [[ "$(whoami)" != 'root' ]]; then
-        echo "You must use sudo or run as root"
-        exit 1;
+    echo "Please run as root or using sudo"
+    exit 1;
 fi
 
 main

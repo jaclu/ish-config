@@ -14,9 +14,9 @@
 current_dir="$(dirname -- "$(realpath "$0")")"
 
 
-if [[ "$(whoami)" != 'root' ]]; then
-        echo "You must use sudo or run as root"
-        exit 1;
+if [ "$(whoami)" != 'root' ]; then
+    echo "Please run as root or using sudo"
+    exit 1;
 fi
 
 app_name="$(grep "^dialog_app=" "$current_dir/do_ish_config.sh"  | \
