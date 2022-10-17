@@ -14,6 +14,33 @@ dialog_app="dialog"
 # dialog_app="whiptail"
 
 
+check_dependencies() {
+    #
+    #  Ensure needed stuff is installed
+    #
+    apks=()
+    if [[ -z "$(command -v $dialog_app)" ]]; then
+        #
+        #  Since whiptail is part of newt, we need to handle that case
+        #
+        dependency="$dialog_app"
+        [[ $dependency = "whiptail" ]] && dependency="newt"
+        apks+=("$dependency")
+    fi
+
+    [[ ! -d /usr/share/zoneinfo ]] && apks+=(tzdata)
+
+    if (( ${#apks[@]} )); then
+        clear
+        printf 'Installing dependencies: '
+        printf '%s ' "${apks[@]}"
+        printf '\n\n'
+        #  shellcheck disable=SC2068
+        apk add ${apks[@]}
+    fi
+}
+
+
 get_tz_regions_lst ()
 {
     regions=$(find /usr/share/zoneinfo/. -maxdepth 1 -type d | \
@@ -96,43 +123,7 @@ if [[ "$(whoami)" != 'root' ]]; then
     exit 1;
 fi
 
-
-#
-#  Ensure needed stuff is installed
-#
-if [[ -d /proc/ish ]]; then
-    #
-    #  To be able to test this on my mac, only install dependencies on iSH
-    #
-    apks=()
-    #
-    #  Make sure dialog/whiptail is available
-    #
-    if [[ -z "$(command -v $dialog_app)" ]]; then
-        #
-        #  Since whiptail is part of newt, we need to handle that case
-        #
-        dependency="$dialog_app"
-        [[ $dependency = "whiptail" ]] && dependency="newt"
-        apks+=("$dependency")
-    fi
-
-    #
-    #  Install tzdata if not there
-    #
-    if [[ ! -d /usr/share/zoneinfo ]]; then
-        apks+=(tzdata)
-    fi
-
-    if (( ${#apks[@]} )); then
-        clear
-        printf 'Installing dependencies: '
-        printf '%s ' "${apks[@]}"
-        printf '\n\n'
-        #  shellcheck disable=SC2068
-        apk add ${apks[@]}
-    fi
-fi
+check_dependencies
 
 main
 

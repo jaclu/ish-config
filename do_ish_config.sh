@@ -418,6 +418,10 @@ dialog_aok_tweaks() {
 
 main() {
     optional_items=()
+    if [[ -e /proc/ish ]]; then
+        #  Current AppStore iSH doesnt have /proc :(
+        optional_items+=("Console" "Settings for the ish-app console")
+    fi
     #  Only available for AOK kernels
     if [[ -e /proc/ish/defaults/enable_multicore ]]; then
         optional_items+=("Tweaks" "AOK kernel tweaks")
@@ -429,7 +433,6 @@ main() {
         --ok-button "Select"                              \
         --cancel-button "Exit"                            \
         --menu "" 0 0 0                                   \
-        "Console"     "Settings for the ish-app console"  \
         "Options"     "Select services to be enabled"     \
         "Software"    "Install some common stuff"         \
         "Time-Zone"   "Set time zone"                     \
