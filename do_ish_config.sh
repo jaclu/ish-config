@@ -308,9 +308,9 @@ dialog_options() {   # TODO: VNC
         fi
 
         $script
-        echo
-        read -p $"Press enter to continue\n"
 
+        echo
+        read -n 1 -r -s -p $'Press enter to continue...\n'
         clear
     fi
 }
