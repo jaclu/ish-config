@@ -70,7 +70,6 @@ enable_sshd() {
     printf "Done!\n"
 
     if [[ "$(ls /home)" = "" ]]; then
-        # Don't do this on AOK FS, it comes with users
         echo
         echo "Since no users are defined, root logins have been permitted"
         echo
@@ -91,8 +90,8 @@ enable_sshd() {
     rc-service sshd start
 
     echo
-    echo "Please be aware that in order for any account to be able to login"
-    echo "using ssh, that account must have a password set!"
+    echo "Please be aware that in order to login in using ssh"
+    echo "that account must have a password set."
     echo "As the intended user, run: passwd"
     echo "To set a password"
     echo
