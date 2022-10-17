@@ -14,7 +14,7 @@ if [ $(whoami) != "root" ]; then
 fi
 
 echo
-ehco "Installing ish-config"
+echo "Installing ish-config"
 echo
 
 apk add git
