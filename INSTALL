@@ -18,7 +18,9 @@ echo "Installing ish-config"
 echo
 
 apk add git
+
 git clone https://github.com/jaclu/ish-config.git /opt/ish-config
+
 ln -sf /opt/ish-config/ish-config.sh /usr/local/bin/ish-config
 ln -sf /opt/ish-config/set-timezone.sh /usr/local/bin/set-timezone
 
