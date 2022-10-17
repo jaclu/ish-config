@@ -309,7 +309,7 @@ dialog_options() {   # TODO: VNC
 
         $script
         echo
-        read -p "Press enter to continue"
+        read -p $"Press enter to continue\n"
 
         clear
     fi
@@ -351,7 +351,7 @@ dialog_software() {
             apk del py3-pip python3
         fi
         echo
-        read -p "Press enter to continue"
+        read -p $"Press enter to continue\n"
         clear
     fi
 }
