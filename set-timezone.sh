@@ -41,7 +41,7 @@ main ()
         #  skip invalids
         [[ "$name" = "right" ]] && continue
 
-        region_items+=($name "")
+        region_items+=("$name" "")
     done <<< "$regions"
 
 
@@ -64,7 +64,7 @@ main ()
     option_items=()
     while read -r name; do
         offset=$(TZ="$region/$name" date +%z | sed "s/00$/:00/g")
-        option_items+=($name " ($offset)")
+        option_items+=("$name" " ($offset)")
     done <<< "$options"
 
 
@@ -103,6 +103,7 @@ if [[ -d /proc/ish ]]; then
     #  To be able to test this on my mac, only install dependencies on iSH
     #
 
+    apks=()
     #
     #  Make sure dialog/whiptail is available
     #
@@ -112,16 +113,20 @@ if [[ -d /proc/ish ]]; then
         #
         dependency="$dialog_app"
         [[ $dependency = "whiptail" ]] && dependency="newt"
-        echo "Adding dependency $dependency"
-        apk add $dependency
+        apks+=("$dependency")
     fi
 
     #
     #  Install tzdata if not there
     #
     if [[ ! -d /usr/share/zoneinfo ]]; then
-        echo "Adding dependency tzdata"
-        apk add tzdata
+        apks+=(tzdata)
+    fi
+
+    if (( ${#apks[@]} )); then
+        clear
+        printf 'Installing dependencies: %s\n' "${apks[@]}"
+        apk add ${apks[@]}
     fi
 fi
 
