@@ -18,12 +18,8 @@ forum, so I thought it makes sense to offer it as a one-click option.
 
 This will install this tool to /opt/ish-config and do softlinks to /usr/local/bin
 
-The only dependency you need to handle yourself is to install curl, so that you
-can get the installer.
-`sudo apk add curl` Everything else will be installed when needed.
-
 ```shell
-/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
+wget -O - https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL | /bin/sh
 
 ```
 
