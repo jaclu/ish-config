@@ -10,8 +10,8 @@
 #  https://gist.github.com/eduardoaugustojulio/fa83cf85efa39919d6a70ca679e91f28
 #
 
-# dialog_app="dialog"
-dialog_app="whiptail"
+dialog_app="dialog"
+# dialog_app="whiptail"
 
 
 get_tz_regions_lst ()
@@ -45,11 +45,12 @@ main ()
     done <<< "$regions"
 
 
+    # tested size 20 0 10
     region=$($dialog_app \
         --title "Timezones - region" \
         --backtitle "It will take a few seconds to generate location views..." \
         --ok-button "Next" \
-        --menu "Select a region, or Etc for direct TZ:" 20 0 10 \
+        --menu "Select a region, or Etc for direct TZ:" 0 0 0 \
         "${region_items[@]}" \
         3>&2 2>&1 1>&3-)
 
@@ -80,7 +81,8 @@ main ()
 
     if [[ -z "$tz" ]]; then
         #
-        #  Back was selected, restart then exit
+        #  Back was selected, recurse one level. If something eventually is 
+        #  selected, the outermost layer of this will use it once exiting.
         #
         main
     else
@@ -102,7 +104,6 @@ if [[ -d /proc/ish ]]; then
     #
     #  To be able to test this on my mac, only install dependencies on iSH
     #
-
     apks=()
     #
     #  Make sure dialog/whiptail is available
@@ -125,13 +126,14 @@ if [[ -d /proc/ish ]]; then
 
     if (( ${#apks[@]} )); then
         clear
-        printf 'Installing dependencies: %s\n' "${apks[@]}"
+        printf 'Installing dependencies: '
+        printf '%s ' "${apks[@]}"
+        printf '\n\n'
         apk add ${apks[@]}
     fi
 fi
 
 main
-
 
 if test -n "$tZone"; then
     #
