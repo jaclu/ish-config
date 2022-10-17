@@ -23,4 +23,4 @@ ln -sf /opt/ish-config/ish-config.sh /usr/local/bin/ish-config
 ln -sf /opt/ish-config/set-timezone.sh /usr/local/bin/set-timezone
 
 echo
-echo "you should now have ish-config and set-timezone in your path"
+echo "You should now have ish-config and set-timezone in your PATH"
