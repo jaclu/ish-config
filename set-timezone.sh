@@ -10,8 +10,8 @@
 #  https://gist.github.com/eduardoaugustojulio/fa83cf85efa39919d6a70ca679e91f28
 #
 
-# dialog_app="dialog"
-dialog_app="whiptail"
+dialog_app="dialog"
+# dialog_app="whiptail"
 
 
 get_tz_regions_lst ()
@@ -41,15 +41,16 @@ main ()
         #  skip invalids
         [[ "$name" = "right" ]] && continue
 
-        region_items+=($name "")
+        region_items+=("$name" "")
     done <<< "$regions"
 
 
+    # tested size 20 0 10
     region=$($dialog_app \
         --title "Timezones - region" \
         --backtitle "It will take a few seconds to generate location views..." \
         --ok-button "Next" \
-        --menu "Select a region, or Etc for direct TZ:" 20 0 10 \
+        --menu "Select a region, or Etc for direct TZ:" 0 0 0 \
         "${region_items[@]}" \
         3>&2 2>&1 1>&3-)
 
@@ -64,7 +65,7 @@ main ()
     option_items=()
     while read -r name; do
         offset=$(TZ="$region/$name" date +%z | sed "s/00$/:00/g")
-        option_items+=($name " ($offset)")
+        option_items+=("$name" " ($offset)")
     done <<< "$options"
 
 
@@ -80,7 +81,8 @@ main ()
 
     if [[ -z "$tz" ]]; then
         #
-        #  Back was selected, restart then exit
+        #  Back was selected, recurse one level. If something eventually is
+        #  selected, the outermost layer of this will use it once exiting.
         #
         main
     else
@@ -102,7 +104,7 @@ if [[ -d /proc/ish ]]; then
     #
     #  To be able to test this on my mac, only install dependencies on iSH
     #
-
+    apks=()
     #
     #  Make sure dialog/whiptail is available
     #
@@ -112,21 +114,27 @@ if [[ -d /proc/ish ]]; then
         #
         dependency="$dialog_app"
         [[ $dependency = "whiptail" ]] && dependency="newt"
-        echo "Adding dependency $dependency"
-        apk add $dependency
+        apks+=("$dependency")
     fi
 
     #
     #  Install tzdata if not there
     #
     if [[ ! -d /usr/share/zoneinfo ]]; then
-        echo "Adding dependency tzdata"
-        apk add tzdata
+        apks+=(tzdata)
+    fi
+
+    if (( ${#apks[@]} )); then
+        clear
+        printf 'Installing dependencies: '
+        printf '%s ' "${apks[@]}"
+        printf '\n\n'
+        #  shellcheck disable=SC2068
+        apk add ${apks[@]}
     fi
 fi
 
 main
-
 
 if test -n "$tZone"; then
     #
