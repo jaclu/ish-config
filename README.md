@@ -19,7 +19,7 @@ forum, so I thought it makes sense to offer it as a one-click option.
 This will install this tool to /opt/ish-config and do softlinks to /usr/local/bin
 
 ```shell
-wget -O - https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL | sudo /bin/sh
+wget -O - https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL | /bin/sh
 
 ```
 
