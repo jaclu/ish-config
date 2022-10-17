@@ -2,7 +2,7 @@
 
 Dialog driven ish configuration
 
-Should have no dependencies, stuff is installed when needed.
+Once installed run it with `ish-config`
 
 ## Current Features
 
@@ -16,14 +16,14 @@ forum, so I thought it makes sense to offer it as a one-click option.
 
 ## Simple Installation
 
-This will install this tool to /opt/ish-config and do softlinks to /usr/local/bin
+This will install to /opt/ish-config and do softlinks to /usr/local/bin
 
 ```shell
-wget -O - https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL | /bin/sh
-
+/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
 ```
 
-Once installed run it with `ish-config`
+If you get the error "curl: not found".
+Do this: `sudo apk add curl` and try again.
 
 ## Test data
 
@@ -32,7 +32,7 @@ since they are shared here they offer NADA security.
 The only purpose is to save tons of time during testing not having to wait
 3-4 minutes for keys to be created on my old iPad 5th
 
-## Contributing
+### Contributing
 
 Contributions are welcome, and they're appreciated.
 Every little bit helps, and credit is always given.
