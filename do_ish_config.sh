@@ -17,8 +17,17 @@
 #  sudo apk add git && sudo git clone https://github.com/jaclu/ish_config.git /opt/ish-config
 #  TODO: check with emkey1 /proc/ish/defaults/option_mapping cant be changed
 
-# dialog_app="dialog"
-dialog_app="whiptail"
+dialog_app="dialog --erase-on-exit --no-tags"
+# console, options, software, main --checklist
+# sshd port --inputbox
+# --no-tags checklist,  inputmenu, radiolist, menu
+
+
+
+# timezone
+#  regions, locations --menu
+# No longer compatible with whiptail...
+# dialog_app="whiptail"
 
 ish_service_disclaimer() {
     echo

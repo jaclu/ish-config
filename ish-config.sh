@@ -20,7 +20,7 @@ if [ "$(whoami)" != 'root' ]; then
 fi
 
 app_name="$(grep "^dialog_app=" "$current_dir/do_ish_config.sh"  | \
-            cut -d= -f2 | sed 's/"//g' | tail -n 1)"
+            cut -d = -f 2 | sed 's/"//g' | tail -n 1 | cut -d ' ' -f 1)"
 case "$app_name" in
 
     dialog)
