@@ -17,17 +17,21 @@
 #  sudo apk add git && sudo git clone https://github.com/jaclu/ish_config.git /opt/ish-config
 #  TODO: check with emkey1 /proc/ish/defaults/option_mapping cant be changed
 
-dialog_app="dialog --erase-on-exit"
+dialog_app="whiptail"
+# dialog_app="dialog --erase-on-exit"
 # console, options, software, main --checklist
 # sshd port --inputbox
 # --no-tags checklist,  inputmenu, radiolist, menu
 
 
+do_clear() {
+    #
+    #  dialog ueses an option too clear screen after an item is displayed
+    #  this is only needed for whiptail
+    #
+    [ "$dialog_app" = "whiptail" ] && clear
+}
 
-# timezone
-#  regions, locations --menu
-# No longer compatible with whiptail...
-# dialog_app="whiptail"
 
 ish_service_disclaimer() {
     echo
@@ -38,7 +42,7 @@ ish_service_disclaimer() {
 }
 
 enable_sshd() {
-    clear
+    do_clear
     echo "Activating sshd service"
     echo
     #
@@ -315,11 +319,11 @@ dialog_options() {   # TODO: VNC
                 3>&2 2>&1 1>&3)
         fi
 
-        clear
+        do_clear
         $script
         echo
         read -n 1 -r -s -p $'Press enter to continue...\n'
-        clear
+        do_clear
     fi
 }
 
@@ -350,7 +354,7 @@ dialog_software() {
     fi
 
     if [[ $PY3_CUR != "$py3_new" ]]; then
-        clear
+        do_clear
         if [[ $py3_new = "on" ]]; then
             echo "Installing Python3..."
             apk add py3-pip
@@ -360,7 +364,7 @@ dialog_software() {
         fi
         echo
         read -n 1 -r -s -p $'Press enter to continue...\n'
-        clear
+        do_clear
     fi
 }
 
