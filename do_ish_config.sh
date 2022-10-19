@@ -17,7 +17,7 @@
 #  sudo apk add git && sudo git clone https://github.com/jaclu/ish_config.git /opt/ish-config
 #  TODO: check with emkey1 /proc/ish/defaults/option_mapping cant be changed
 
-dialog_app="dialog --erase-on-exit --no-tags"
+dialog_app="dialog --erase-on-exit"
 # console, options, software, main --checklist
 # sshd port --inputbox
 # --no-tags checklist,  inputmenu, radiolist, menu
@@ -290,7 +290,7 @@ dialog_options() {   # TODO: VNC
         --title "Optional Features"                         \
         --ok-button "Update"                                \
         --checklist "Select what should be active:" 0 0 0   \
-        "sshd" "Run sshd service" "$SSHD_CUR"               \
+        "sshd" "sshd service" "$SSHD_CUR"               \
         "${optional_items[@]}"                              \
         3>&2 2>&1 1>&3-)
 
