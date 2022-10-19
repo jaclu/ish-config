@@ -10,8 +10,17 @@
 #  https://gist.github.com/eduardoaugustojulio/fa83cf85efa39919d6a70ca679e91f28
 #
 
-# dialog_app="dialog"
+# dialog_app="dialog --erase-on-exit"
 dialog_app="whiptail"
+
+
+do_clear() {
+    #
+    #  dialog ueses an option too clear screen after an item is displayed
+    #  this is only needed for whiptail
+    #
+    [[ "$dialog_app" = "whiptail" ]] && clear
+}
 
 
 check_dependencies() {
@@ -19,11 +28,14 @@ check_dependencies() {
     #  Ensure needed stuff is installed
     #
     apks=()
-    if [[ -z "$(command -v $dialog_app)" ]]; then
+
+    dlg_app="$(cat $dialog_app | cut -d ' ' -f 1)"
+
+    if [[ -z "$(command -v "$dlg_app")" ]]; then
         #
         #  Since whiptail is part of newt, we need to handle that case
         #
-        dependency="$dialog_app"
+        dependency="$dlg_app"
         [[ $dependency = "whiptail" ]] && dependency="newt"
         apks+=("$dependency")
     fi
@@ -31,7 +43,7 @@ check_dependencies() {
     [[ ! -d /usr/share/zoneinfo ]] && apks+=(tzdata)
 
     if (( ${#apks[@]} )); then
-        clear
+        do_clear
         printf 'Installing dependencies: '
         printf '%s ' "${apks[@]}"
         printf '\n\n'
@@ -135,4 +147,4 @@ if test -n "$tZone"; then
     $dialog_app --msgbox "Time Zone is now:\n\n $tZone\n" 0 0
 fi
 
-clear
+do_clear
