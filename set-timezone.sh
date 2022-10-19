@@ -85,12 +85,12 @@ main ()
 
 
     # tested size 20 0 10
-    region=$($dialog_app \
-        --title "Timezones - region" \
-        --backtitle "It will take a few seconds to generate location views..." \
-        --ok-button "Next" \
-        --menu "Select a region, or Etc for direct TZ:" 0 0 0 \
-        "${region_items[@]}" \
+    region=$($dialog_app                                                \
+        --title "Timezones - region"                                    \
+        --backtitle "Region details takes a few seconds..."             \
+        --ok-button "Next"                                              \
+        --menu "Select a region, or Etc for direct TZ:" 0 0 0           \
+        "${region_items[@]}"                                            \
         3>&2 2>&1 1>&3-)
 
     if [[ -z "$region" ]]; then
