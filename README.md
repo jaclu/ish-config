@@ -4,6 +4,10 @@ Dialog driven ish configuration
 
 Once installed run it with `ish-config`
 
+# Recent changes
+
+- Fixed a bug in set_timezone.sh that caused deploy of whiptail to fail
+
 ## Current Features
 
 - Time Zone - Select Region and Location via dialogs
