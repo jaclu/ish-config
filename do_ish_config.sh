@@ -14,14 +14,10 @@
 #  the current state is stored as an upper-case variable ending with _CUR
 #  and the new state as a lower case variable ending in _new in order to make
 #  the difference obvious.
-#  sudo apk add git && sudo git clone https://github.com/jaclu/ish_config.git /opt/ish-config
-#  TODO: check with emkey1 /proc/ish/defaults/option_mapping cant be changed
-
+#
 dialog_app="whiptail"
 # dialog_app="dialog --erase-on-exit"
-# console, options, software, main --checklist
-# sshd port --inputbox
-# --no-tags checklist,  inputmenu, radiolist, menu
+
 
 
 do_clear() {
