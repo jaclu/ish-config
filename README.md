@@ -6,6 +6,7 @@ Once installed run it with `ish-config`
 
 # Recent changes
 
+- Removed test_data, no longer needed.
 - Fixed a bug in set_timezone.sh that caused deploy of whiptail to fail
 
 ## Current Features
@@ -28,13 +29,6 @@ This will install to /opt/ish-config and do softlinks to /usr/local/bin
 
 If you get the error "curl: not found".
 Do this: `sudo apk add curl` and try again.
-
-## Test data
-
-The test_data/dummy-ssh-host-keys.tgz should not be used beyond testing,
-since they are shared here they offer NADA security.
-The only purpose is to save tons of time during testing not having to wait
-3-4 minutes for keys to be created on my old iPad 5th
 
 ### Contributing
 
