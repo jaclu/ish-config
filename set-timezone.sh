@@ -29,7 +29,7 @@ check_dependencies() {
     #
     apks=()
 
-    dlg_app="$(cat $dialog_app | cut -d ' ' -f 1)"
+    dlg_app="$(echo $dialog_app | cut -d ' ' -f 1)"
 
     if [[ -z "$(command -v "$dlg_app")" ]]; then
         #
@@ -43,8 +43,7 @@ check_dependencies() {
     [[ ! -d /usr/share/zoneinfo ]] && apks+=(tzdata)
 
     if (( ${#apks[@]} )); then
-        do_clear
-        printf 'Installing dependencies: '
+        printf 'Installing %s dependencies: ' "$0"
         printf '%s ' "${apks[@]}"
         printf '\n\n'
         #  shellcheck disable=SC2068
