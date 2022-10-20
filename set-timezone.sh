@@ -10,8 +10,17 @@
 #  https://gist.github.com/eduardoaugustojulio/fa83cf85efa39919d6a70ca679e91f28
 #
 
-# dialog_app="dialog"
+# dialog_app="dialog --erase-on-exit"
 dialog_app="whiptail"
+
+
+do_clear() {
+    #
+    #  dialog ueses an option too clear screen after an item is displayed
+    #  this is only needed for whiptail
+    #
+    [[ "$dialog_app" = "whiptail" ]] && clear
+}
 
 
 check_dependencies() {
@@ -19,11 +28,14 @@ check_dependencies() {
     #  Ensure needed stuff is installed
     #
     apks=()
-    if [[ -z "$(command -v $dialog_app)" ]]; then
+
+    dlg_app="$(echo $dialog_app | cut -d ' ' -f 1)"
+
+    if [[ -z "$(command -v "$dlg_app")" ]]; then
         #
         #  Since whiptail is part of newt, we need to handle that case
         #
-        dependency="$dialog_app"
+        dependency="$dlg_app"
         [[ $dependency = "whiptail" ]] && dependency="newt"
         apks+=("$dependency")
     fi
@@ -31,8 +43,7 @@ check_dependencies() {
     [[ ! -d /usr/share/zoneinfo ]] && apks+=(tzdata)
 
     if (( ${#apks[@]} )); then
-        clear
-        printf 'Installing dependencies: '
+        printf 'Installing %s dependencies: ' "$0"
         printf '%s ' "${apks[@]}"
         printf '\n\n'
         #  shellcheck disable=SC2068
@@ -73,12 +84,12 @@ main ()
 
 
     # tested size 20 0 10
-    region=$($dialog_app \
-        --title "Timezones - region" \
-        --backtitle "It will take a few seconds to generate location views..." \
-        --ok-button "Next" \
-        --menu "Select a region, or Etc for direct TZ:" 0 0 0 \
-        "${region_items[@]}" \
+    region=$($dialog_app                                                \
+        --title "Timezones - region"                                    \
+        --backtitle "Region details takes a few seconds..."             \
+        --ok-button "Next"                                              \
+        --menu "Select a region, or Etc for direct TZ:" 0 0 0           \
+        "${region_items[@]}"                                            \
         3>&2 2>&1 1>&3-)
 
     if [[ -z "$region" ]]; then
@@ -135,4 +146,4 @@ if test -n "$tZone"; then
     $dialog_app --msgbox "Time Zone is now:\n\n $tZone\n" 0 0
 fi
 
-clear
+do_clear
