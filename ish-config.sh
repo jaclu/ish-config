@@ -45,8 +45,13 @@ test ! -f $dialog_app && pkgs="$pkgs $dialog_pkg"
 
 if [ -n "$pkgs" ]; then
     echo "Installing dependencies: $pkgs"
+    if [ -f /etc/debian_version ]; then
+        cmd="apt install"
+    else
+        cmd="apk add"
+    fi
     #  shellcheck disable=SC2086
-    apk add $pkgs
+    $cmd $pkgs
 fi
 
 # shellcheck disable=SC2086
