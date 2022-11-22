@@ -46,8 +46,13 @@ check_dependencies() {
         printf 'Installing %s dependencies: ' "$0"
         printf '%s ' "${apks[@]}"
         printf '\n\n'
+        if [ -f /etc/debian_version ]; then
+            cmd="apt install"
+        else
+            cmd="apk add"
+        fi
         #  shellcheck disable=SC2068
-        apk add ${apks[@]}
+        $cmd ${apks[@]}
     fi
 }
 
