@@ -15,8 +15,8 @@
 #  and the new state as a lower case variable ending in _new in order to make
 #  the difference obvious.
 #
-dialog_app="whiptail"
-# dialog_app="dialog --erase-on-exit"
+# dialog_app="whiptail"
+dialog_app="dialog --erase-on-exit"
 
 
 
