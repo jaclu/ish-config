@@ -16,7 +16,7 @@
 #  the difference obvious.
 #
 # dialog_app="whiptail"
-dialog_app="dialog --erase-on-exit"
+dialog_app="dialog" # --erase-on-exit"
 
 
 
