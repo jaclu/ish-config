@@ -10,7 +10,7 @@
 #  https://gist.github.com/eduardoaugustojulio/fa83cf85efa39919d6a70ca679e91f28
 #
 
-dialog_app="dialog --erase-on-exit"
+dialog_app="dialog"  # --erase-on-exit"
 # dialog_app="whiptail"
 
 
