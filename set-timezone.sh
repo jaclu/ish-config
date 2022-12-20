@@ -91,7 +91,7 @@ main ()
     # tested size 20 0 10
     region=$($dialog_app                                                \
         --title "Timezones - region"                                    \
-        --backtitle "Region details takes a few seconds..."             \
+        --backtitle "Region details takes a few seconds to prepare..."  \
         --ok-button "Next"                                              \
         --menu "Select a region, or Etc for direct TZ:" 0 0 0           \
         "${region_items[@]}"                                            \
