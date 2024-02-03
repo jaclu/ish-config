@@ -24,7 +24,7 @@ forum, so I thought it makes sense to offer it as a one-click option.
 This will install to /opt/ish-config and do softlinks to /usr/local/bin
 
 ```shell
-/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
+apk add curl && /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/jaclu/ish-config/main/INSTALL)"
 ```
 
 If you get the error "curl: not found".
