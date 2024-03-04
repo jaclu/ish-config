@@ -309,9 +309,9 @@ dialog_options() {   # TODO: VNC
                 grep -i ^port /etc/ssh/sshd_config | awk 'NF>1{print $NF}'
                 )"
             test -z "$sshd_port" && sshd_port=2222  # default
-            sshd_port=$($dialog_app                     \
-                --nocancel                              \
-                --inputbox "sshd port" 8 13 $sshd_port  \
+            sshd_port=$($dialog_app                      \
+                --nocancel                               \
+                --inputbox "sshd port" 8 13 "$sshd_port" \
                 3>&2 2>&1 1>&3)
         fi
 

@@ -1,10 +1,10 @@
-# ish-config
+#ish-config
 
 Dialog driven ish configuration
 
 Once installed run it with `ish-config`
 
-# Recent changes
+#Recent changes
 
 - Removed test_data, no longer needed.
 - Fixed a bug in set_timezone.sh that caused deploy of whiptail to fail
