@@ -1,4 +1,2 @@
 # olint linter config
 .cache.olint
-
-.olint.conf # olint config file

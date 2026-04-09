@@ -176,10 +176,10 @@ dialog_console() {
     #
     #  Depending on kernel versions some console features might be unavailable
     #
-    if [[ "$EKH_CUR" != "unavailable" ]]; then
+    if [[ $EKH_CUR != "unavailable" ]]; then
         optional_items+=("ekh" "Hide extra keys with external keyboard" "$EKH_CUR")
     fi
-    if [[ "$OCS_CUR" != "unavailable" ]]; then
+    if [[ $OCS_CUR != "unavailable" ]]; then
         optional_items+=("ocs" "Override Control Space" "$OCS_CUR")
     fi
 
@@ -197,7 +197,7 @@ dialog_console() {
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    "$exitstatus" || return # abort on cancel
+    $exitstatus || return # abort on cancel
 
     #
     #  Blinking Cursor
@@ -291,7 +291,7 @@ dialog_options() { # TODO: VNC
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    "$exitstatus" || return # abort on cancel
+    $exitstatus || return # abort on cancel
 
     if [[ $options == *sshd* ]]; then
         sshd_new="ON"
@@ -336,7 +336,7 @@ dialog_software() {
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    "$exitstatus" || return # abort on cancel
+    $exitstatus || return # abort on cancel
 
     if echo "$opt_softw" | grep -q "py3"; then
         py3_new="on"
@@ -387,7 +387,7 @@ dialog_aok_tweaks() {
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    "$exitstatus" || return # abort on cancel
+    $exitstatus || return # abort on cancel
 
     #
     #  Switch extra locking on or off.
