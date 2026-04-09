@@ -18,16 +18,13 @@
 # dialog_app="whiptail"
 dialog_app="dialog" # --erase-on-exit"
 
-
-
 do_clear() {
     #
-    #  dialog ueses an option too clear screen after an item is displayed
+    #  dialog uses an option too clear screen after an item is displayed
     #  this is only needed for whiptail
     #
-    [ "$dialog_app" = "whiptail" ] && clear
+    [[ "$dialog_app" = "whiptail" ]] && clear
 }
-
 
 ish_service_disclaimer() {
     echo
@@ -47,16 +44,16 @@ enable_sshd() {
     pkgs=()
     test ! -f /usr/sbin/sshd && pkgs+=("openssh")
     test ! -f /bin/rc-status && pkgs+=("openrc")
-    if (( ${#pkgs[@]} )); then
+    if ((${#pkgs[@]})); then
         echo "Installing dependencies: ${pkgs[*]}"
         apk add "${pkgs[@]}"
     fi
 
-    if grep -q " sysinit" /etc/inittab ; then
-         sed -i 's/ sysinit//' /etc/inittab
-         echo
-         echo "/etc/inittab was changed. You need to restart iSH now!"
-         exit 0
+    if grep -q " sysinit" /etc/inittab; then
+        sed -i 's/ sysinit//' /etc/inittab
+        echo
+        echo "/etc/inittab was changed. You need to restart iSH now!"
+        exit 0
     fi
 
     #
@@ -75,7 +72,7 @@ enable_sshd() {
     #  running it again is harmless, so no need for a check if it was installed
     #
     printf "Initializing openrc..."
-    rc-status > /dev/null 2>&1
+    rc-status >/dev/null 2>&1
     printf "Done!\n"
 
     if [[ "$(ls /home)" = "" ]]; then
@@ -84,7 +81,7 @@ enable_sshd() {
         echo
         allow_root_logins="PermitRootLogin yes"
         if ! grep -q "$allow_root_logins" /etc/ssh/sshd_config; then
-            echo  "$allow_root_logins" > /etc/ssh/sshd_config
+            echo "$allow_root_logins" >/etc/ssh/sshd_config
         fi
     fi
 
@@ -120,7 +117,7 @@ disable_sshd() {
 dialog_console() {
 
     bcu_file="/proc/ish/defaults/blink_cursor"
-    state="$(cat $bcu_file)"
+    state="$(cat "$bcu_file")"
     if [[ "$state" = "true" ]]; then
         CUB_CUR="on"
     else
@@ -128,7 +125,7 @@ dialog_console() {
     fi
 
     bme_file="/proc/ish/defaults/backtick_mapping_escape"
-    state="$(cat $bme_file)"
+    state="$(cat "$bme_file")"
     if [[ "$state" = "true" ]]; then
         BME_CUR="on"
     else
@@ -136,7 +133,7 @@ dialog_console() {
     fi
 
     ddi_file="/proc/ish/defaults/disable_dimming"
-    state="$(cat $ddi_file)"
+    state="$(cat "$ddi_file")"
     if [[ "$state" = "true" ]]; then
         DDI_CUR="on"
     else
@@ -144,8 +141,8 @@ dialog_console() {
     fi
 
     hek_file="/proc/ish/defaults/hide_extra_keys_with_external_keyboard"
-    if [[ -f $hek_file ]]; then
-        state="$(cat $hek_file)"
+    if [[ -f "$hek_file" ]]; then
+        state="$(cat "$hek_file")"
         if [[ "$state" = "true" ]]; then
             EKH_CUR="on"
         else
@@ -156,7 +153,7 @@ dialog_console() {
     fi
 
     hsb_file="/proc/ish/defaults/hide_status_bar"
-    state="$(cat $hsb_file)"
+    state="$(cat "$hsb_file")"
     if [[ "$state" = "true" ]]; then
         SBH_CUR="on"
     else
@@ -164,8 +161,8 @@ dialog_console() {
     fi
 
     ocs_file="/proc/ish/defaults/override_control_space"
-    if [[ -f $ocs_file ]]; then
-        state="$(cat $ocs_file)"
+    if [[ -f "$ocs_file" ]]; then
+        state="$(cat "$ocs_file")"
         if [[ "$state" = "true" ]]; then
             OCS_CUR="on"
         else
@@ -179,28 +176,28 @@ dialog_console() {
     #
     #  Depending on kernel versions some console features might be unavailable
     #
-    if [[ $EKH_CUR != "unavailable" ]]; then
+    if [[ "$EKH_CUR" != "unavailable" ]]; then
         optional_items+=("ekh" "Hide extra keys with external keyboard" "$EKH_CUR")
     fi
-    if [[ $OCS_CUR != "unavailable" ]]; then
+    if [[ "$OCS_CUR" != "unavailable" ]]; then
         optional_items+=("ocs" "Override Control Space" "$OCS_CUR")
     fi
 
     #  Min sizses
     #    whiptail 14 56 7
-    console=$($dialog_app                                                   \
-        --title     "Console Settings"                                      \
-        --ok-button "Update"                                                \
-        --checklist "Select features to be active:" 0 0 0                   \
-        "bme"       "Backtick  Mapping Escape"                "$BME_CUR"    \
-        "cub"       "Blinking Cursor"                         "$CUB_CUR"    \
-        "ddi"       "Disable Dimming"                         "$DDI_CUR"    \
-        "sbh"       "Hide Status Bar"                         "$SBH_CUR"    \
-        "${optional_items[@]}"                                              \
+    console=$($dialog_app \
+        --title "Console Settings" \
+        --ok-button "Update" \
+        --checklist "Select features to be active:" 0 0 0 \
+        "bme" "Backtick  Mapping Escape" "$BME_CUR" \
+        "cub" "Blinking Cursor" "$CUB_CUR" \
+        "ddi" "Disable Dimming" "$DDI_CUR" \
+        "sbh" "Hide Status Bar" "$SBH_CUR" \
+        "${optional_items[@]}" \
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    test $exitstatus -ne 0 && return  # abort on cancel
+    "$exitstatus" || return # abort on cancel
 
     #
     #  Blinking Cursor
@@ -213,7 +210,7 @@ dialog_console() {
         kernel_param="false"
     fi
     # Only apply if changed
-    [[ "$CUB_CUR" != "$cub_new" ]] && echo "$kernel_param" > "$bcu_file"
+    [[ "$CUB_CUR" != "$cub_new" ]] && echo "$kernel_param" >"$bcu_file"
 
     #
     #  Backtick Mapping Escape
@@ -225,7 +222,7 @@ dialog_console() {
         bme_new="off"
         kernel_param="false"
     fi
-    [[ "$BME_CUR" != "$bme_new" ]] && echo "$kernel_param" > "$bme_file"
+    [[ "$BME_CUR" != "$bme_new" ]] && echo "$kernel_param" >"$bme_file"
 
     #
     #  Disable Dimming
@@ -237,7 +234,7 @@ dialog_console() {
         ddi_new="off"
         kernel_param="false"
     fi
-    [[ "$DDI_CUR" != "$ddi_new" ]] && echo "$kernel_param" > "$ddi_file"
+    [[ "$DDI_CUR" != "$ddi_new" ]] && echo "$kernel_param" >"$ddi_file"
 
     #
     #  Hide extra keys with external keyboard
@@ -249,7 +246,7 @@ dialog_console() {
         ekh_new="off"
         kernel_param="false"
     fi
-    [[ "$EKH_CUR" != "$ekh_new" ]] && echo "$kernel_param" > "$hek_file"
+    [[ "$EKH_CUR" != "$ekh_new" ]] && echo "$kernel_param" >"$hek_file"
 
     #
     #  Hide Status Bar
@@ -261,7 +258,7 @@ dialog_console() {
         sbh_new="off"
         kernel_param="false"
     fi
-    [[ "$SBH_CUR" != "$sbh_new" ]] && echo "$kernel_param" > "$hsb_file"
+    [[ "$SBH_CUR" != "$sbh_new" ]] && echo "$kernel_param" >"$hsb_file"
 
     #
     #  Override Control Space
@@ -273,29 +270,28 @@ dialog_console() {
         ocs_new="off"
         kernel_param="false"
     fi
-    [[ "$OCS_CUR" != "$ocs_new" ]] && echo "$kernel_param" > "$ocs_file"
+    [[ "$OCS_CUR" != "$ocs_new" ]] && echo "$kernel_param" >"$ocs_file"
 }
 
-
-dialog_options() {   # TODO: VNC
+dialog_options() { # TODO: VNC
     optional_items=()
 
-    if [[ -n "$(command -v rc-status)" ]] &&  rc-status -a | grep -qw sshd ; then
+    if [[ -n "$(command -v rc-status)" ]] && rc-status -a | grep -qw sshd; then
         SSHD_CUR="ON"
     else
         SSHD_CUR="OFF"
     fi
 
-    options=$($dialog_app                                   \
-        --title "Optional Features"                         \
-        --ok-button "Update"                                \
-        --checklist "Select what should be active:" 0 0 0   \
-        "sshd" "sshd service" "$SSHD_CUR"               \
-        "${optional_items[@]}"                              \
+    options=$($dialog_app \
+        --title "Optional Features" \
+        --ok-button "Update" \
+        --checklist "Select what should be active:" 0 0 0 \
+        "sshd" "sshd service" "$SSHD_CUR" \
+        "${optional_items[@]}" \
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    test $exitstatus -ne 0 && return  # abort on cancel
+    "$exitstatus" || return # abort on cancel
 
     if [[ $options == *sshd* ]]; then
         sshd_new="ON"
@@ -307,10 +303,10 @@ dialog_options() {   # TODO: VNC
         if [[ $script = "enable_sshd" ]]; then
             sshd_port="$(
                 grep -i ^port /etc/ssh/sshd_config | awk 'NF>1{print $NF}'
-                )"
-            test -z "$sshd_port" && sshd_port=2222  # default
-            sshd_port=$($dialog_app                      \
-                --nocancel                               \
+            )"
+            test -z "$sshd_port" && sshd_port=2222 # default
+            sshd_port=$($dialog_app \
+                --nocancel \
                 --inputbox "sshd port" 8 13 "$sshd_port" \
                 3>&2 2>&1 1>&3)
         fi
@@ -323,7 +319,6 @@ dialog_options() {   # TODO: VNC
     fi
 }
 
-
 dialog_software() {
 
     py_bin="$(command -v python3)"
@@ -333,15 +328,15 @@ dialog_software() {
         PY3_CUR="off"
     fi
 
-    opt_softw=$($dialog_app                                 \
-        --title     "Optional Software"                     \
-        --ok-button "Update"                                \
-        --checklist "Select items to be installed:" 0 0 30  \
-        "py3"       "Python3"                   "$PY3_CUR"  \
+    opt_softw=$($dialog_app \
+        --title "Optional Software" \
+        --ok-button "Update" \
+        --checklist "Select items to be installed:" 0 0 30 \
+        "py3" "Python3" "$PY3_CUR" \
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    test $exitstatus -ne 0 && return  # abort on cancel
+    "$exitstatus" || return # abort on cancel
 
     if echo "$opt_softw" | grep -q "py3"; then
         py3_new="on"
@@ -364,12 +359,11 @@ dialog_software() {
     fi
 }
 
-
 dialog_aok_tweaks() {
     # It has already been verified this is an AOK kernel...
 
     elock_file="/proc/ish/defaults/enable_extralocking"
-    state="$(cat $elock_file)"
+    state="$(cat "$elock_file")"
     if [[ "$state" = "true" ]]; then
         ELOCK_CUR="on"
     else
@@ -377,24 +371,23 @@ dialog_aok_tweaks() {
     fi
 
     mc_file="/proc/ish/defaults/enable_multicore"
-    state="$(cat $mc_file)"
+    state="$(cat "$mc_file")"
     if [[ "$state" = "true" ]]; then
         MC_CUR="on"
     else
         MC_CUR="off"
     fi
 
-
-    tweaks=$($dialog_app                                                    \
-        --title     "Kernel Tweaks"                                         \
-        --ok-button "Update"                                                \
-        --checklist "Select features to be active:" 0 0 0                   \
-        "elock"     "Switch extra locking on or off"         "$ELOCK_CUR"   \
-        "mc"        "Switch multicore processing on or off"  "$MC_CUR"      \
+    tweaks=$($dialog_app \
+        --title "Kernel Tweaks" \
+        --ok-button "Update" \
+        --checklist "Select features to be active:" 0 0 0 \
+        "elock" "Switch extra locking on or off" "$ELOCK_CUR" \
+        "mc" "Switch multicore processing on or off" "$MC_CUR" \
         3>&2 2>&1 1>&3-)
 
     exitstatus=$?
-    test $exitstatus -ne 0 && return  # abort on cancel
+    "$exitstatus" || return # abort on cancel
 
     #
     #  Switch extra locking on or off.
@@ -407,7 +400,7 @@ dialog_aok_tweaks() {
         kernel_param="false"
     fi
     # Only apply if changed
-    [[ "$ELOCK_CUR" != "$elock_new" ]] && echo "$kernel_param" > "$elock_file"
+    [[ "$ELOCK_CUR" != "$elock_new" ]] && echo "$kernel_param" >"$elock_file"
 
     #
     #  Switch multicore processing on or off.
@@ -420,14 +413,13 @@ dialog_aok_tweaks() {
         kernel_param="false"
     fi
     # Only apply if changed
-    [[ "$MC_CUR" != "$mc_new" ]] && echo "$kernel_param" > "$mc_file"
+    [[ "$MC_CUR" != "$mc_new" ]] && echo "$kernel_param" >"$mc_file"
 }
-
 
 main() {
     optional_items=()
     if [[ -e /proc/ish ]]; then
-        #  Current AppStore iSH doesnt have /proc :(
+        #  Current AppStore iSH doesn't have /proc :(
         optional_items+=("Console" "Settings for the ish-app console")
     fi
     #  Only available for AOK kernels
@@ -435,16 +427,16 @@ main() {
         optional_items+=("Tweaks" "AOK kernel tweaks")
     fi
 
-    main_menu=$($dialog_app                               \
-        --title "Select option to configure"              \
-        --backtitle "iSH-AOK Options"                     \
-        --ok-button "Select"                              \
-        --cancel-button "Exit"                            \
-        --menu "" 0 0 0                                   \
-        "Options"     "Select services to be enabled"     \
-        "Software"    "Install some common stuff"         \
-        "Time-Zone"   "Set time zone"                     \
-       "${optional_items[@]}"                             \
+    main_menu=$($dialog_app \
+        --title "Select option to configure" \
+        --backtitle "iSH-AOK Options" \
+        --ok-button "Select" \
+        --cancel-button "Exit" \
+        --menu "" 0 0 0 \
+        "Options" "Select services to be enabled" \
+        "Software" "Install some common stuff" \
+        "Time-Zone" "Set time zone" \
+        "${optional_items[@]}" \
         3>&2 2>&1 1>&3-)
 
     case "$main_menu" in
@@ -476,11 +468,9 @@ main() {
     main
 }
 
-
 if [[ "$(whoami)" != 'root' ]]; then
     echo "Please run as root or using sudo"
-    exit 1;
+    exit 1
 fi
 
 main
-

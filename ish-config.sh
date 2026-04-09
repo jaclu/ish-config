@@ -13,14 +13,13 @@
 
 current_dir="$(dirname -- "$(realpath "$0")")"
 
-
 if [ "$(whoami)" != 'root' ]; then
     echo "Please run as root or using sudo"
-    exit 1;
+    exit 1
 fi
 
-app_name="$(grep "^dialog_app=" "$current_dir/do_ish_config.sh"  | \
-            cut -d = -f 2 | sed 's/"//g' | tail -n 1 | cut -d ' ' -f 1)"
+app_name="$(grep "^dialog_app=" "$current_dir/do_ish_config.sh" \
+    | cut -d = -f 2 | sed 's/"//g' | tail -n 1 | cut -d ' ' -f 1)"
 case "$app_name" in
 
     dialog)
@@ -41,7 +40,7 @@ esac
 
 pkgs=""
 test ! -f /bin/bash && pkgs="$pkgs bash"
-test ! -f $dialog_app && pkgs="$pkgs $dialog_pkg"
+test ! -f "$dialog_app" && pkgs="$pkgs $dialog_pkg"
 
 if [ -n "$pkgs" ]; then
     echo "Installing dependencies: $pkgs"

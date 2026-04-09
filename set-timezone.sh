@@ -12,7 +12,7 @@
 
 do_clear() {
     #
-    #  dialog ueses an option too clear screen after an item is displayed
+    #  dialog uses an option too clear screen after an item is displayed
     #  this is only needed for whiptail
     #
     [[ "$dialog_app" = "whiptail" ]] && clear
@@ -44,7 +44,7 @@ check_dependencies() {
         printf '\n\n'
 
         if [[ -f /etc/debian_version ]]; then
-            #  Prevent debians built in dialog,
+            #  Prevent debian's built in dialog,
             bash -c "DEBIAN_FRONTEND=noninteractive apt install -y ${apks[*]}"
         else
             #  shellcheck disable=SC2068
@@ -54,13 +54,13 @@ check_dependencies() {
 }
 
 get_tz_regions_lst() {
-    regions=$(find /usr/share/zoneinfo/. -maxdepth 1 -type d |
-        cut -d "/" -f6 | sed '/^$/d' | awk '{print $0 ""}' | sort)
+    regions=$(find /usr/share/zoneinfo/. -maxdepth 1 -type d \
+        | cut -d "/" -f6 | sed '/^$/d' | awk '{print $0 ""}' | sort)
 }
 
 get_tz_options_lst() {
-    options=$(cd /usr/share/zoneinfo/"$1" && find . | sed 's|^\./||' |
-        sed 's/^\.//' | sed '/^$/d' | sort)
+    options=$(cd /usr/share/zoneinfo/"$1" && find . | sed 's|^\./||' \
+        | sed 's/^\.//' | sed '/^$/d' | sort)
 }
 
 main() {
@@ -102,7 +102,7 @@ main() {
     done <<<"$options"
 
     menu_title="Select your timezone in\\nregion: ${region}"
-    test "$region" = 'Etc' && menu_title="$menu_title\\n\\nPlease note POSIX and ISO use oposite signs\\nfor numerical time-zone references!\\nFocus on the right column in this table"
+    test "$region" = 'Etc' && menu_title="$menu_title\\n\\nPlease note POSIX and ISO use opposite signs\\nfor numerical time-zone references!\\nFocus on the right column in this table"
     tz=$($dialog_app \
         --title "Timezones - location" \
         --ok-button "Select" \
